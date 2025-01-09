@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <title>Öğrenciler</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row"><h5>Öğrenciler</h5></div>
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>Öğrenci Adı</td>
+                        <td>Öğrenci SoyAdı</td>
+                        <td>E-Mail</td>
+                        <td>Telefon</td>
+                        <td>Cinsiyet</td>
+                        <td>Adres</td>
+                        <td>Not Ortalaması</td>
+                        <td>Durum</td>
+                        <td>İşlemler</td>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+
+                </tbody>
+            </table>
+            <div class="row" id="noStudent" style="display: none;">
+                Henüz Öğrenci Girişi Yapılmamış
+            </div>
+            <div class="row" id="addNewStudent">
+                <a class="link-primary "style="text-decoration:none" href="addStudent.html">Yeni Öğrenci Ekle</a>
+            </div>
+        </div>
+
+    </div>
+
+
+
+<script src="script/getStudents.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>

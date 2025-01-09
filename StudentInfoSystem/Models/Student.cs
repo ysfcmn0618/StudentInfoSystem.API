@@ -20,14 +20,14 @@ namespace StudentInfoSystem.Models
         [MaxLength(100)]
         public string? LastName { get; set; }
         [Required]
-        public DateTime DateOfBirth { get; set; }
+        public DateOnly DateOfBirth { get; set; }
 
         public string? Gender { get; set; }
         [Required]
         [MaxLength(300)]
         public string? Address { get; set; }
         [Required]
-        public DateTime EnrollmentDate { get; set; }
+        public DateOnly EnrollmentDate { get; set; }
         public string? GradeLevel { get; set; }
         public float GPA { get; set; }
         public List<string> Courses { get; set; } = new List<string>();
