@@ -32,7 +32,7 @@ namespace StudentInfoSystem.Controllers
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Student))]
         [ProducesResponseType(StatusCodes.Status406NotAcceptable, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult PostStudent([FromForm] Student student)
+        public IActionResult AddStudent([FromForm] Student student)
         {
 
             var std = StudentsList.FirstOrDefault(x => x.Phone == student.Phone);//Aynı Öğrenciden başka varmı? kontrolü için iki öğrenvi aynı telefon numarasını kullanmamalı diye düşünüyoruz.!
@@ -40,6 +40,14 @@ namespace StudentInfoSystem.Controllers
             student.StudentId = StudentsList.Any() ? StudentsList.Max(s => s.StudentId) + 1 : 1;
             StudentsList.Add(student);
             return CreatedAtAction(nameof(GetStudentById), new { id = student.StudentId }, student);
+
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest();
+            //}
+
+            //StudentsList.Add(student);  
+            //return Ok(student);
         }
         [HttpPut("UpdateStudent/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Student))]
