@@ -59,8 +59,8 @@ namespace StudentInfoSystem.Controllers
             {
                 return NotFound($"Öğrenci ID {id} bulunamadı.");
             }
-            var samePhoneStudent= StudentsList.FirstOrDefault(x => x.Phone == student.Phone);
-            if (samePhoneStudent is not null)
+            var samePhoneStudent= StudentsList.Where(x => x.Phone == student.Phone);
+            if (samePhoneStudent.Count() > 1)
             {
                 return NotFound("Bu Telefon Numarası Başka Bir Kullanıcıya Ait");
             }

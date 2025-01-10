@@ -11,7 +11,9 @@
 
 <body>
     <div class="container">
-        <div class="row"><h5>Öğrenciler</h5></div>
+        <div class="row">
+            <h5>Öğrenciler</h5>
+        </div>
         <div class="container">
             <table class="table">
                 <thead>
@@ -35,15 +37,108 @@
                 Henüz Öğrenci Girişi Yapılmamış
             </div>
             <div class="row" id="addNewStudent">
-                <a class="link-primary "style="text-decoration:none" href="addStudent.html">Yeni Öğrenci Ekle</a>
+                <a class="link-primary " style="text-decoration:none" href="addStudent.html">Yeni Öğrenci Ekle</a>
             </div>
         </div>
 
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="editStudentModal" tabindex="-1" aria-labelledby="editStudentModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editStudentModalLabel">Öğrenci Düzenle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editStudentForm">
+                        <div class="form-group mt-1">
+                            <label class="col-md-3 col-sm-3" for="firstName">Adınız</label>
+                            <input class="form-control col-md-8 col-sm-8" name="FirstName" type="text" id="firstName"
+                                placeholder="Adınızı Giriniz :" required>
+                        </div>
+                        <div class="form-group mt-1">
+                            <label class="col-md-3 col-sm-3" for="lastName">Soy Adınız</label>
+                            <input class="form-control col-md-8 col-sm-8" name="LastName" type="text" id="lastName"
+                                placeholder="Soyadınızı Giriniz :" required>
+                        </div>
+                        <div class="form-group mt-1">
+                            <label class="col-md-3 col-sm-3" for="photoUrl">Fotograf Url</label>
+                            <input class="form-control col-md-8 col-sm-8" name="PhotoUrl" type="text" id="photoUrl"
+                                placeholder="Fotograf url sini giriniz">
+                        </div>
+                        <div class="form-group mt-1">
+                            <label class="col-md-3 col-sm-3" for="email">Email Adres</label>
+                            <input class="form-control col-md-8 col-sm-8" name="Email" type="email" id="email"
+                                placeholder="example@email.com" >
+                        </div>
+                        <div class="form-group mt-1">
+                            <label class="col-md-3 col-sm-3" for="phone">Telefon Numarası</label>
+                            <input class="form-control col-md-8 col-sm-8" name="Phone" type="tel" id="phone" placeholder="555 555 55 55" value="555 555 55 55"
+                                pattern="^\d{3}\s\d{3}\s\d{2}\s\d{2}$" >
+                        </div>
+                        <div class="form-group mt-1">
+                            <label class="col-md-3 col-sm-3" for="dateOfBirth">Doğum Tarihi</label>
+                            <input class="form-control col-md-8 col-sm-8" name="DateOfBirth" type="date" id="dateOfBirth" value="2025-01-09">
+                        </div>
+                        <div class="form-group mt-1">
+                            <label class="col-md-3 col-sm-3" for="gender">Cinsiyet</label>
+                            <select class="form-control col-md-8 col-sm-8" name="Gender" id="gender">
+                                <option>Erkek</option>
+                                <option>Kadın</option>
+                            </select>
+                        </div>
+                        <div class="form-group mt-1">
+                            <label class="col-md-3 col-sm-3" for="address">Adres</label>
+                            <input class="form-control col-md-8 col-sm-8" name="Address" type="text" id="address" value="Adress"
+                                placeholder="Adres giriniz">
+                        </div>
+                        <div class="form-group mt-1">
+                            <label class="col-md-3 col-sm-3" for="enrollmentDate">Kayıt Tarihi</label>
+                            <input class="form-control col-md-8 col-sm-8" name="EnrollmentDate" type="date" id="enrollmentDate" value="2025-01-09" >
+                        </div>
+                        <div class="form-group mt-1">
+                            <label class="col-md-3 col-sm-3" for="gradeLevel">Sınıf</label>
+                            <select class="form-control col-md-8 col-sm-8" name="GradeLevel" id="gradeLevel">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>doktora</option>
+                                <option>uzman</option>
+                            </select>
+                        </div>
+                        <div class="form-group mt-1">
+                            <label class="col-md-3 col-sm-3" for="gpa">Not Ortalaması</label>
+                            <input class="form-control col-md-8 col-sm-8" name="GPA" type="number" id="gpa" value="0" >
+                        </div>
+                        <div class="form-group mt-1">
+                            <input class="form-check-input" type="checkbox" value="true" name="IsActive" id="isActive">
+                            <label class="form-check-label" for="isActive">
+                                Durum Aktif
+                            </label>
+                        </div>
+                        <div class="form-group mt-1">
+                            <label class="col-md-3 col-sm-3" for="parentName">Ebeveyn Name</label>
+                            <input class="form-control col-md-8 col-sm-8" name="ParentName" type="text" id="parentName" value="parentName"
+                                placeholder="Velinizin Adını Giriniz :" >
+                        </div>
+                        <div class="form-group mt-1">
+                            <label class="col-md-3 col-sm-3" for="parentContact">Ebeveyn iletişim bilgileri</label>
+                            <input class="form-control col-md-8 col-sm-8" name="ParentContact" type="text" id="parentContact" value="parentContact"
+                                placeholder="Ebeveyn iletişim bilgileri :" >
+                        </div>                        
+                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-<script src="script/getStudents.js"></script>
+    <script src="script/getStudents.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 </body>
