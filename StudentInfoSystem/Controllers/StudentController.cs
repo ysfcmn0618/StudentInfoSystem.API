@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using StudentInfoSystem.Models;
+using StudentInfoSystem.Data.Entities;
 
 namespace StudentInfoSystem.Controllers
 {
@@ -8,10 +8,10 @@ namespace StudentInfoSystem.Controllers
     [ApiController]
     public class StudentController : ControllerBase
     {
-        private static readonly List<Student> StudentsList = new();
+        private static readonly List<StudentEntity> StudentsList = new();
 
         [HttpGet("AllStudents")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Student>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<StudentEntity>))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(string))]
         public IActionResult GetAllStudents()
         {
@@ -20,7 +20,7 @@ namespace StudentInfoSystem.Controllers
         }
 
         [HttpGet("getStudent/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Student))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(StudentEntity))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(string))]
         public IActionResult GetStudentById([FromRoute] int id)
         {
@@ -29,10 +29,10 @@ namespace StudentInfoSystem.Controllers
             return Ok(student);
         }
         [HttpPost("AddStudent")]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Student))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(StudentEntity))]
         [ProducesResponseType(StatusCodes.Status406NotAcceptable, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult AddStudent([FromForm] Student student)
+        public IActionResult AddStudent([FromForm] StudentEntity student)
         {
 
             var std = StudentsList.FirstOrDefault(x => x.Phone == student.Phone);//Aynı Öğrenciden başka varmı? kontrolü için iki öğrenvi aynı telefon numarasını kullanmamalı diye düşünüyoruz.!
@@ -50,9 +50,9 @@ namespace StudentInfoSystem.Controllers
             //return Ok(student);
         }
         [HttpPut("UpdateStudent/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Student))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(StudentEntity))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(string))]
-        public IActionResult PutStudent(int id, [FromBody] Student student)
+        public IActionResult PutStudent(int id, [FromBody] StudentEntity student)
         {
             var existingStudent = StudentsList.FirstOrDefault(x => x.StudentId == id);
             if (existingStudent is null)
@@ -82,7 +82,7 @@ namespace StudentInfoSystem.Controllers
             return Ok(existingStudent);
         }
         [HttpDelete("DeleteStudent/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Student))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(StudentEntity))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(string))]
         public IActionResult DeleteStudent([FromRoute] int id)
         {
