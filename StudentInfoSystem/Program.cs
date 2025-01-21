@@ -1,4 +1,7 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using Microsoft.EntityFrameworkCore;
+using StudentInfoSystem.Data;
+
+var builder = WebApplication.CreateBuilder(args);
 
 // CORS'u yapılandır
 builder.Services.AddCors(options =>
@@ -17,6 +20,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<AppDbContext>(x =>
+{
+    string? connectionString = builder.Configuration.GetConnectionString("Default");
+    if (connectionString is null)
+    {
+        throw new InvalidOperationException("Connection string is not found.");
+    }
+    x.UseSqlServer(connectionString);
+});
+
+
 var app = builder.Build();
 
 
@@ -34,4 +48,14 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+using (var scope = app.Services.CreateScope())
+{
+    using (var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>())
+    {
+        await dbContext.Database.EnsureDeletedAsync();
+        await dbContext.Database.EnsureCreatedAsync();
+
+        //await DbSeed.SeedAsync(dbContext); // sahte veri ekleme i�i
+    }
+}
 app.Run();
