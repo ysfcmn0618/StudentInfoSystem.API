@@ -55,7 +55,8 @@ using (var scope = app.Services.CreateScope())
         await dbContext.Database.EnsureDeletedAsync();
         await dbContext.Database.EnsureCreatedAsync();
 
-        //await DbSeed.SeedAsync(dbContext); // sahte veri ekleme i�i
+        DbSeedBogus.SeedDatabase(dbContext);// sahte veri ekleme işi
     }
+    
 }
 app.Run();
