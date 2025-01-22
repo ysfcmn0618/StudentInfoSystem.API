@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StudentInfoSystem.Data.Entities
 {
@@ -16,6 +17,8 @@ namespace StudentInfoSystem.Data.Entities
         public string Email { get; set; } = string.Empty;
         public string ParentName { get; set; } = string.Empty;
         public string ParentContact { get; set; } = string.Empty;
+        [ForeignKey(nameof(StudentId))]
+        public int  StudentId { get; set; }
         public StudentEntity Student { get; set; } = null!;
     }
 }

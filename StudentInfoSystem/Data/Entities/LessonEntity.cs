@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace StudentInfoSystem.Data.Entities
 {
@@ -8,8 +9,9 @@ namespace StudentInfoSystem.Data.Entities
         public string LessonName { get; set; } = string.Empty;        
         public DateOnly EnrollmentDateClass { get; set; }
         public string GradeLevel { get; set; } = string.Empty;
-        public float GPA { get; set; }
+        public double GPA { get; set; }
         public string LessonTeacherName { get; set; } = string.Empty;
+        [JsonIgnore]
         public ICollection<StudentEntity> Students { get; set; }=new List<StudentEntity>();
     }
 }
