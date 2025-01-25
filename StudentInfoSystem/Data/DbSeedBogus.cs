@@ -14,7 +14,7 @@ namespace StudentInfoSystem.Data
             var lessonNames = new[] { "Mathematics", "Physics", "Chemistry", "History", "Biology","Computer Engineering","Art" };
             var lessonFaker = new Faker<LessonEntity>()
                 .RuleFor(l => l.LessonName, f => f.PickRandom(lessonNames)) // Belirli ders isimlerinden birini seçer
-                .RuleFor(l => l.EnrollmentDateClass, f => DateOnly.FromDateTime(f.Date.Past(2)))
+                //.RuleFor(l => l.EnrollmentDateClass, f => DateTime.FromDateTime(f.Date.Past(2)))
                 .RuleFor(l => l.GradeLevel, f => f.Random.Int(1, 12).ToString())
                 .RuleFor(l => l.GPA, f => f.Random.Float(1.0f, 4.0f))
                 .RuleFor(l => l.LessonTeacherName, f => f.Name.FullName());
@@ -36,7 +36,7 @@ namespace StudentInfoSystem.Data
                 .RuleFor(s => s.LastName, f => f.Name.LastName())
                 .RuleFor(s => s.DateOfBirth, f => DateOnly.FromDateTime(f.Date.Past(20, DateTime.Now.AddYears(-5))))
                 .RuleFor(s => s.Gender, f => f.PickRandom("Male", "Female"))
-                .RuleFor(s => s.EnrollmentDate, f => DateOnly.FromDateTime(f.Date.Past(2)))
+                //.RuleFor(s => s.EnrollmentDate, f => DateOnly.FromDateTime(f.Date.Past(2)))
                 .RuleFor(s => s.IsActive, f => f.Random.Bool())
                 .RuleFor(s => s.PhotoUrl, f => f.Internet.Avatar())
                 .RuleFor(s => s.ContactID, f => 0) // İlişki kurulduktan sonra düzenlenecek

@@ -5,11 +5,11 @@ namespace StudentInfoSystem.Data.Entities
 {
     public class ContactEntity
     {
+        [Key]
         public int ContactId { get; set; }
         [Required]
         [Phone(ErrorMessage = "Geçerli bir telefon numarası girin.")]
         public string Phone { get; set; } = string.Empty;
-        [Required]
         [MaxLength(300)]
         public string Address { get; set; } = string.Empty;
         [Required]
@@ -17,8 +17,9 @@ namespace StudentInfoSystem.Data.Entities
         public string Email { get; set; } = string.Empty;
         public string ParentName { get; set; } = string.Empty;
         public string ParentContact { get; set; } = string.Empty;
-        [ForeignKey(nameof(StudentId))]
+        
         public int  StudentId { get; set; }
+        [ForeignKey(nameof(StudentId))]
         public StudentEntity Student { get; set; } = null!;
     }
 }

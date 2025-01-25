@@ -1,6 +1,6 @@
 ﻿namespace StudentInfoSystem.Models
 {
-    public class StudentInfoModel
+    public class StudentListInfoModel
     {
         public int StudentId { get; set; }
         public string FirstName { get; set; } = string.Empty;
