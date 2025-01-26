@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudentInfoSystem.Data;
+using StudentInfoSystem.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +30,7 @@ builder.Services.AddDbContext<AppDbContext>(x =>
     }
     x.UseSqlServer(connectionString);
 });
-
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var app = builder.Build();
 
@@ -55,7 +56,7 @@ using (var scope = app.Services.CreateScope())
         await dbContext.Database.EnsureDeletedAsync();
         await dbContext.Database.EnsureCreatedAsync();
 
-        //DbSeedBogus.SeedDatabase(dbContext);// sahte veri ekleme işi
+       DbSeedBogus.SeedDatabase(dbContext);// sahte veri ekleme işi
     }
     
 }

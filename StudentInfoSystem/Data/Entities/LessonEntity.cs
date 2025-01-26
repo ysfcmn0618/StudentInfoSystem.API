@@ -13,6 +13,6 @@ namespace StudentInfoSystem.Data.Entities
         public double GPA { get; set; }
         public string LessonTeacherName { get; set; } = string.Empty;
         [JsonIgnore]
-        public ICollection<StudentEntity> Students { get; set; }=new List<StudentEntity>();
+        public  ICollection<StudentLessonEntity> Students { get; set; }= new List<StudentLessonEntity>();
     }
 }

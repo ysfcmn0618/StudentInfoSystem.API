@@ -10,9 +10,11 @@ namespace StudentInfoSystem.Data.Entities
 
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int StudentId { get; set; }
+
         [Required(ErrorMessage = "Öğrencinin adı boş olamaz.")]
         [MaxLength(100)]
         public string FirstName { get; set; } = string.Empty;
+
         [Required(ErrorMessage = "Öğrencinin Soy adı boş olamaz.")]
         [MaxLength(100)]
         public string LastName { get; set; } = string.Empty;
@@ -24,9 +26,9 @@ namespace StudentInfoSystem.Data.Entities
         public bool IsActive { get; set; } = true;
 
         public string PhotoUrl { get; set; } = string.Empty;
-        public int ContactID { get; set; }
         public ContactEntity Contact { get; set; } = null!;
+        public int ContactId { get; set; }
         [JsonIgnore]
-        public ICollection<LessonEntity> Lessons { get; set; } = new List<LessonEntity>();
+        public ICollection<StudentLessonEntity> Lessons { get; set; }= new List<StudentLessonEntity>();
     }
 }
