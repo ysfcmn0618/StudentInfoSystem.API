@@ -39,32 +39,38 @@ namespace StudentInfoSystem.Controllers
             //    })
             //    .ToListAsync();
             var studentListDb = await _context.Students
-         .Include(x => x.Lessons) // GPA hesaplamak için Lessons tablosunu dahil edin
-         .ThenInclude(l => l.Lesson) // Lesson içeriğine erişim için ekleme yapın
-         .ToListAsync();
+                 .Include(x => x.Lessons) // GPA hesaplamak için Lessons tablosunu dahil edin
+                    .ThenInclude(l => l.Lesson) // Lesson içeriğine erişim için ekleme yapın
+                    .ToListAsync();
 
             // AutoMapper ile listeyi haritalandırın
             var studentModelList = _mapper.Map<List<StudentListInfoModel>>(studentListDb);
 
             return Ok(studentModelList);
         }
-
-
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStudent([FromRoute] int id)
         {
-            //var student = await _context.Students.SingleOrDefaultAsync(x => x.StudentId == id);
-            //if (student is null)
-            //{
-            //    return NotFound();
-            //}
-            //var studentContact = await _context.Contacts.SingleOrDefaultAsync(x => x.StudentId == id);
-            //_context.Students.Remove(student);
-            //if (studentContact is not null)
-            //{
-            //    _context.Contacts.Remove(studentContact);
-            //}
-            //await _context.SaveChangesAsync();
+            var student = await _context.Students.SingleOrDefaultAsync(x => x.StudentId == id);
+            if (student is null)
+            {
+                return NotFound();
+            }
+            var studentContact = await _context.Contacts.SingleOrDefaultAsync(x => x.ContactId == student.ContactId);
+            _context.Students.Remove(student);
+            if (studentContact is not null)
+            {
+                _context.Contacts.Remove(studentContact);
+            }
+            var lessons = await _context.StudentLessons.Where(l => l.StudentId == id).ToListAsync();
+            if (lessons.Any())
+            {
+                // İlgili kayıtları sil
+                _context.StudentLessons.RemoveRange(lessons);
+                await _context.SaveChangesAsync();
+            }
+
+            await _context.SaveChangesAsync();
             return Ok(new { message = "Öğrenci başarıyla silindi." });
         }
         [HttpPost]
@@ -121,15 +127,11 @@ namespace StudentInfoSystem.Controllers
             var studentRes = _context.Students.Add(newStudent);
             await _context.SaveChangesAsync();
 
-          // newContact.Student = studentRes.Entity;
-           // newContact.StudentId= studentRes.Entity.StudentId;
-      
-
+            // newContact.Student = studentRes.Entity;
+            // newContact.StudentId= studentRes.Entity.StudentId;
             //// İlişkili Contact ve Lesson kayıtlarını StudentId ile bağlama
             //newContact.StudentId = newStudent.StudentId;
             //newLesson.Students = newStudent.StudentId;
-
-
             var lessonRes = _context.Lessons.Add(newLesson);
             await _context.SaveChangesAsync();
             newLesson.LessonID = lessonRes.Entity.LessonID;
@@ -148,6 +150,63 @@ namespace StudentInfoSystem.Controllers
                 Student = newStudent,
                 Contact = newContact,
                 Lesson = newLesson
+            });
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateStudent([FromForm] AddStudentInfoModel student,int id )
+        {
+            // Mevcut öğrenci, iletişim ve ders bilgilerini kontrol et
+            var existingStudent = await _context.Students.SingleOrDefaultAsync(s => s.StudentId == id);
+            if (existingStudent is null)
+            {
+                return NotFound(new { Message = "Öğrenci bulunamadı." });
+            }
+
+            var existingContact = await _context.Contacts.SingleOrDefaultAsync(c => c.ContactId == existingStudent.ContactId);
+            if (existingContact is null)
+            {
+                return NotFound(new { Message = "İletişim bilgileri bulunamadı." });
+            }
+
+            var existingLessons = await _context.StudentLessons
+                .Where(sl => sl.StudentId == existingStudent.StudentId)
+                .ToListAsync();
+
+            // Mevcut verileri güncelle
+            var updatedContact = _mapper.Map(student, existingContact); // Var olan iletişim bilgilerini güncelle
+            var updatedStudent = _mapper.Map(student, existingStudent); // Var olan öğrenci bilgilerini güncelle
+            updatedStudent.ContactId = existingContact.ContactId;
+
+            _context.Contacts.Update(updatedContact);
+            _context.Students.Update(updatedStudent);
+
+            // Yeni ders bilgileri oluştur ve güncelle
+            var updatedLesson = _mapper.Map<LessonEntity>(student);
+            _context.Lessons.Update(updatedLesson);
+
+            await _context.SaveChangesAsync();
+
+            // Ders ile öğrenci ilişkisini güncelle
+            if (existingLessons.Any())
+            {
+                _context.StudentLessons.RemoveRange(existingLessons); // Eski ilişkileri kaldır
+            }
+
+            var studentLessonEntity = new StudentLessonEntity
+            {
+                StudentId = updatedStudent.StudentId,
+                LessonID = updatedLesson.LessonID
+            };
+
+            _context.StudentLessons.Add(studentLessonEntity);
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                Message = "Öğrenci bilgileri başarıyla güncellendi.",
+                Student = updatedStudent,
+                Contact = updatedContact,
+                Lesson = updatedLesson
             });
         }
 
