@@ -3,11 +3,11 @@ using StudentInfoSystem.Data.Entities;
 
 namespace StudentInfoSystem.Data
 {
-    public class AppDbContext:DbContext
+    public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options):base(options) 
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-            
+
         }
         public DbSet<StudentEntity> Students { get; set; }
         public DbSet<ContactEntity> Contacts { get; set; }
@@ -33,10 +33,12 @@ namespace StudentInfoSystem.Data
                 .WithMany(s => s.Lessons)
                 .HasForeignKey(ls => ls.StudentId);
             // Student - Contact ilişkisini tanımlıyoruz (One-to-One)
-            //modelBuilder.Entity<StudentEntity>()
-            //    .HasOne(s => s.Contact)
-            //    //.WithOne(c => c.Student)
-            //    .HasForeignKey<ContactEntity>(c => c.StudentId);
+            modelBuilder.Entity<StudentEntity>()
+                .HasOne(s => s.Contact)
+                .WithMany()
+                .HasForeignKey(s => s.ContactId);
         }
+       
     }
+
 }

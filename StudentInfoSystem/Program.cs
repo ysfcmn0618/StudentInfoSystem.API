@@ -29,6 +29,7 @@ builder.Services.AddDbContext<AppDbContext>(x =>
         throw new InvalidOperationException("Connection string is not found.");
     }
     x.UseSqlServer(connectionString);
+    
 });
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 

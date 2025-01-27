@@ -23,24 +23,16 @@ namespace StudentInfoSystem.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet("/AllStudents")]
         public async Task<IActionResult> GetAllStudent()
         {
-            //var studentInfos = await _context.Students
-            //    .Select(x => new StudentListInfoModel
-            //    {
-            //        StudentId = x.StudentId,
-            //        FirstName = x.FirstName,
-            //        LastName = x.LastName,
-            //        DateOfBirth = x.DateOfBirth,
-            //        Gender = x.Gender,
-            //        GPA = x.Lessons != null && x.Lessons.Any() ? x.Lessons.Average(a => a.Lesson.GPA) : 0,
-            //        PhotoUrl = x.PhotoUrl,
-            //    })
-            //    .ToListAsync();
+            if (_context.Students is null)
+            {
+                return NotFound("Öğrenci listesi bulunamadı.");
+            }
+
             var studentListDb = await _context.Students
                  .Include(x => x.Contact) 
-                    .ThenInclude(l => l.Lesson) // Lesson içeriğine erişim için ekleme yapın
                     .ToListAsync();
 
             // AutoMapper ile listeyi haritalandırın
@@ -76,42 +68,6 @@ namespace StudentInfoSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> AddStudent([FromForm] AddStudentInfoModel student)
         {
-            //var dbStudent = await _context.Students.LastAsync();
-
-            //if (await _context.Students.AnyAsync(s => s. == student.StudentId))
-            //    return BadRequest("Böyle bir öğrenci mevcut");
-
-            /*var newStudent = new StudentEntity()
-            {
-                FirstName = student.FirstName,
-                LastName = student.LastName,
-                DateOfBirth = student.DateOfBirth,
-                Gender = student.Gender,
-                EnrollmentDate = DateTime.Now,
-                IsActive = student.IsActive,
-                PhotoUrl = student.PhotoUrl,
-                ContactID = student.ContactId,
-            };
-            var newContact = new ContactEntity()
-            {
-                Phone = student.Phone,
-                Address = student.Address,
-                Email = student.Email,
-                ParentName = student.ParentName,
-                ParentContact = student.ParentContact,
-                StudentId = student.StudentId,
-            };
-            var newLesson = new LessonEntity()
-            {
-                LessonName = student.LessonName,
-                EnrollmentDateClass = DateTime.Now,
-                LessonTeacherName = student.LessonTeacherName,
-                GPA = student.GPA,
-                GradeLevel = student.GradeLevel, 
-                StudentId = student.StudentId
-            };*/
-
-
             var newContact = _mapper.Map<ContactEntity>(student);
             var newLesson = _mapper.Map<LessonEntity>(student);
             var newStudent = _mapper.Map<StudentEntity>(student);
@@ -119,8 +75,6 @@ namespace StudentInfoSystem.Controllers
             newLesson.EnrollmentDateClass = DateOnly.FromDateTime(DateTime.Now);
 
 
-            //newContact.StudentId = newStudent.StudentId;
-            //newLesson. = newStudent.StudentId;
             var contactRes = _context.Contacts.Add(newContact);
             await _context.SaveChangesAsync();
 
@@ -128,11 +82,6 @@ namespace StudentInfoSystem.Controllers
             var studentRes = _context.Students.Add(newStudent);
             await _context.SaveChangesAsync();
 
-            // newContact.Student = studentRes.Entity;
-            // newContact.StudentId= studentRes.Entity.StudentId;
-            //// İlişkili Contact ve Lesson kayıtlarını StudentId ile bağlama
-            //newContact.StudentId = newStudent.StudentId;
-            //newLesson.Students = newStudent.StudentId;
             var lessonRes = _context.Lessons.Add(newLesson);
             await _context.SaveChangesAsync();
             newLesson.LessonID = lessonRes.Entity.LessonID;
@@ -154,7 +103,7 @@ namespace StudentInfoSystem.Controllers
             });
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateStudent([FromForm] AddStudentInfoModel student,int id )
+        public async Task<IActionResult> UpdateStudent([FromBody] AddStudentInfoModel student,int id )
         {
             // Mevcut öğrenci, iletişim ve ders bilgilerini kontrol et
             var existingStudent = await _context.Students.SingleOrDefaultAsync(s => s.StudentId == id);
