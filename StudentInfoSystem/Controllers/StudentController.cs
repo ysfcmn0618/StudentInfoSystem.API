@@ -39,7 +39,7 @@ namespace StudentInfoSystem.Controllers
             //    })
             //    .ToListAsync();
             var studentListDb = await _context.Students
-                 .Include(x => x.Lessons) // GPA hesaplamak için Lessons tablosunu dahil edin
+                 .Include(x => x.Contact) 
                     .ThenInclude(l => l.Lesson) // Lesson içeriğine erişim için ekleme yapın
                     .ToListAsync();
 

@@ -13,7 +13,10 @@ namespace StudentInfoSystem.Mapping
             CreateMap<AddStudentInfoModel, StudentEntity>().ReverseMap();
             CreateMap<AddStudentInfoModel, ContactEntity>().ReverseMap();
             CreateMap<AddStudentInfoModel, LessonEntity>().ReverseMap();
-            CreateMap<StudentEntity,StudentListInfoModel>().ReverseMap();
+            CreateMap<StudentEntity, StudentListInfoModel>()
+             .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.Contact.Phone))
+             .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Contact.Email))
+             .ReverseMap();
         }
     }
 }
