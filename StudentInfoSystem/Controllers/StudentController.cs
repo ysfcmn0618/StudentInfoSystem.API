@@ -115,8 +115,9 @@ namespace StudentInfoSystem.Controllers
             var newContact = _mapper.Map<ContactEntity>(student);
             var newLesson = _mapper.Map<LessonEntity>(student);
             var newStudent = _mapper.Map<StudentEntity>(student);
-            newStudent.EnrollmentDate = DateTime.Now;
-            newLesson.EnrollmentDateClass = DateTime.Now;
+            newStudent.EnrollmentDate = DateOnly.FromDateTime(DateTime.Now);
+            newLesson.EnrollmentDateClass = DateOnly.FromDateTime(DateTime.Now);
+
 
             //newContact.StudentId = newStudent.StudentId;
             //newLesson. = newStudent.StudentId;

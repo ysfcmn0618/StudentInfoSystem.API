@@ -22,7 +22,7 @@ namespace StudentInfoSystem.Data.Entities
 
         public string Gender { get; set; } = string.Empty;
 
-        public DateTime EnrollmentDate { get; set; }
+        public DateOnly EnrollmentDate { get; set; }
         public bool IsActive { get; set; } = true;
 
         public string PhotoUrl { get; set; } = string.Empty;

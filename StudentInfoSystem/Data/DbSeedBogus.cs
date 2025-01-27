@@ -35,7 +35,8 @@ namespace StudentInfoSystem.Data
                 .RuleFor(s => s.DateOfBirth, f => DateOnly.FromDateTime(f.Date.Past(20, DateTime.Now.AddYears(-5))))
                 .RuleFor(s => s.Gender, f => f.PickRandom("Male", "Female"))
                 .RuleFor(s => s.IsActive, f => f.Random.Bool())
-                .RuleFor(s => s.PhotoUrl, f => f.Internet.Avatar());
+                .RuleFor(s => s.PhotoUrl, f => f.Internet.Avatar())
+                .RuleFor(s => s.EnrollmentDate, f => DateOnly.FromDateTime(f.Date.Past(20, DateTime.Now.AddYears(-1))));
 
             var contacts = new List<ContactEntity>();
             var students = studentFaker.Generate(20); // 20 sahte öğrenci oluştur

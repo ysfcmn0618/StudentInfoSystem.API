@@ -14,7 +14,7 @@ namespace StudentInfoSystem.Models
         public string LastName { get; set; } = string.Empty;
         public DateOnly DateOfBirth { get; set; }
         public string Gender { get; set; } = string.Empty;
-        public DateTime EnrollmentDate { get; set; }
+        public DateOnly EnrollmentDate { get; set; }
         public bool IsActive { get; set; } = true;
         public string PhotoUrl { get; set; } = string.Empty;
         //public int ContactId { get; set; }
@@ -25,7 +25,7 @@ namespace StudentInfoSystem.Models
         public string ParentContact { get; set; } = string.Empty;
       //  public int LessonID { get; set; }
         public string LessonName { get; set; } = string.Empty;
-        public DateTime EnrollmentDateClass { get; set; }
+        public DateOnly EnrollmentDateClass { get; set; }
         public string GradeLevel { get; set; } = string.Empty;
         public double GPA { get; set; }
         public string LessonTeacherName { get; set; } = string.Empty;
