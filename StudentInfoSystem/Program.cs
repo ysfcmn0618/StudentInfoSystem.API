@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudentInfoSystem.Data;
 using StudentInfoSystem.Mapping;
+using StudentInfoSystem.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +33,8 @@ builder.Services.AddDbContext<AppDbContext>(x =>
     
 });
 builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+builder.Services.AddScoped<StudentService>();
 
 var app = builder.Build();
 
